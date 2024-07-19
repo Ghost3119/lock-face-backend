@@ -2,10 +2,9 @@ import { CorsOptions } from 'cors';
 
 export const corsConfig: CorsOptions = {
     origin: function (origin, callback) {
-        const whitelist = [process.env.FRONTEND_URL]; // Añadir 'undefined' para manejar solicitudes sin origen (como las de Postman)
-        console.log('Frontend URL:', process.env.FRONTEND_URL);
+        const whitelist = [process.env.FRONTEND_URL, 'https://lock-face-vhcj.onrender.com'];
 
-        if (whitelist.includes(origin)) {
+        if (!origin || whitelist.includes(origin)) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
