@@ -78,4 +78,17 @@ router.delete('/:userId',
     validateUserExists,
     UserController.deleteUserById);
 
+router.post('/login',
+    body('emailUser')
+        .notEmpty()
+        .withMessage('Email user is required')
+        .isEmail(),
+    body('passwordUser')
+        .notEmpty()
+        .withMessage('Password user is required'),
+    handleInputsErrors,
+    UserController.loginUser
+);
+
+
 export default router;

@@ -10,12 +10,12 @@ const router = Router();
 router.param('userId', validateUserExists);
 
 router.post('/:userId/locks',
+    body('lockName')
+        .notEmpty()
+        .withMessage('Lock name is required'),
     body('ubicationLock')
         .notEmpty()
         .withMessage('Ubication lock is required'),
-    body('configurationLock')
-        .notEmpty()
-        .withMessage('Configuration lock is required'),
     handleInputsErrors,
     LockController.createLock
 );
@@ -43,6 +43,16 @@ router.put('/:userId/locks/:lockId',
         .withMessage('Configuration lock is required'),
     handleInputsErrors,
     LockController.updateLockById);
+
+router.put('/:userId/locks/:lockId/configurationLock',
+    param('lockId')
+        .isMongoId()
+        .withMessage('Invalid lock id'),
+    body('configurationLock')
+        .notEmpty()
+        .withMessage('Configuration lock is required'),
+    handleInputsErrors,
+    LockController.updateLockConfigurationById);
 
 router.delete('/:userId/locks/:lockId',
     param('lockId')

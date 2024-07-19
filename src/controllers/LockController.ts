@@ -49,6 +49,25 @@ export class LockController {
         }
     }
 
+    static updateLockConfigurationById = async (req: Request, res: Response) => {
+        try {
+            // Extraer configurationLock del cuerpo de la solicitud
+            const { configurationLock } = req.body;
+
+            // Verificar que configurationLock esté presente y sea un array
+            if (!Array.isArray(configurationLock)) {
+                return res.status(400).json({ message: 'Configuration lock must be an array' });
+            }
+
+            // Actualizar la cerradura
+            await Lock.findByIdAndUpdate(req.lock.id, { configurationLock });
+            res.send('Lock configuration updated successfully');
+        } catch (error) {
+            console.error('Error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
+
     static deleteLockById = async (req: Request, res: Response) => {
         try {
             req.user.locks = req.user.locks.filter((lock) =>

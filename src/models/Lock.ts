@@ -17,8 +17,9 @@ export interface ILog {
 
 export interface ILock extends Document {
     userId: Types.ObjectId;
+    lockName: string;
     ubicationLock: string;
-    configurationLock: string;
+    configurationLock: string[];
     statusLock: LockStatus;
     logs: ILog[];
 }
@@ -32,6 +33,11 @@ const logSchema: Schema = new Schema({
 });
 
 const lockSchema: Schema = new Schema({
+    lockName: {
+        type: String,
+        required: true,
+        trim: true
+    },
     userId: {
         type: Types.ObjectId,
         ref: 'User',
@@ -43,9 +49,9 @@ const lockSchema: Schema = new Schema({
         trim: true
     },
     configurationLock: {
-        type: String,
+        type: [String],
         required: true,
-        trim: true
+        default: []
     },
     statusLock: {
         type: String,
