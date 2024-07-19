@@ -2,7 +2,7 @@ import { CorsOptions } from 'cors';
 
 export const corsConfig: CorsOptions = {
     origin: function (origin, callback) {
-        const whitelist = [process.env.FRONTEND_URL, undefined]; // Añadir 'undefined' para manejar solicitudes sin origen (como las de Postman)
+        const whitelist = [process.env.FRONTEND_URL]; // Añadir 'undefined' para manejar solicitudes sin origen (como las de Postman)
 
         if (whitelist.includes(origin)) {
             callback(null, true);
