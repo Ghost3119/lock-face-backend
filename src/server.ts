@@ -13,7 +13,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
-//app.use(cors(corsConfig));
+app.use(cors(corsConfig));
 
 app.use(morgan("dev"));
 
