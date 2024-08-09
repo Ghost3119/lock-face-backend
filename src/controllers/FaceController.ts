@@ -6,7 +6,7 @@ import Lock from '../models/Lock';
 export class FaceController {
     static createFace = async (req: Request, res: Response) => {
         const { userId, lockId } = req.params;
-        const { faceId, features } = req.body;
+        const { image } = req.body;
 
         try {
             const user = await User.findById(userId);
@@ -19,7 +19,7 @@ export class FaceController {
                 return res.status(404).json({ message: 'Lock not found' });
             }
 
-            const face = new Face({ faceId, features, user: user._id, lock: lock._id });
+            const face = new Face({ image, user: user._id, lock: lock._id });
             await face.save();
 
             res.status(201).json({ message: 'Face created successfully', face });
@@ -56,10 +56,10 @@ export class FaceController {
 
     static updateFaceById = async (req: Request, res: Response) => {
         const { faceId } = req.params;
-        const { faceId: newFaceId, features } = req.body;
+        const { faceId: newFaceId, image } = req.body;
 
         try {
-            const face = await Face.findByIdAndUpdate(faceId, { faceId: newFaceId, features }, { new: true });
+            const face = await Face.findByIdAndUpdate(faceId, { faceId: newFaceId, image }, { new: true });
             if (!face) {
                 return res.status(404).json({ message: 'Face not found' });
             }
@@ -110,10 +110,10 @@ export class FaceController {
     }
 
     static searchFacesByFeatures = async (req: Request, res: Response) => {
-        const { features } = req.body;
+        const { image } = req.body;
 
         try {
-            const faces = await Face.find({ features: { $all: features } });
+            const faces = await Face.find({ image: { $all: image } });
             res.status(200).json(faces);
         } catch (error) {
             console.error('Error searching faces by features:', error);

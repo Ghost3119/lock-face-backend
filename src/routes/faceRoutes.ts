@@ -13,12 +13,9 @@ router.post('/:userId/:lockId',
     param('lockId')
         .isMongoId()
         .withMessage('Invalid lock id'),
-    body('faceId')
+    body('image')
         .notEmpty()
-        .withMessage('Face ID is required'),
-    body('features')
-        .isArray({ min: 10, max: 10 })
-        .withMessage('Features must be an array of 10 numbers'),
+        .withMessage('Image is required'),
     handleInputsErrors,
     FaceController.createFace
 );
@@ -43,9 +40,9 @@ router.put('/:faceId',
     body('faceId')
         .notEmpty()
         .withMessage('Face ID is required'),
-    body('features')
-        .isArray({ min: 10, max: 10 })
-        .withMessage('Features must be an array of 10 numbers'),
+    body('image')
+        .notEmpty()
+        .withMessage('Image is required'),
     handleInputsErrors,
     FaceController.updateFaceById
 );
@@ -79,9 +76,9 @@ router.get('/lock/:lockId',
 
 // Buscar Caras por Características
 router.post('/search',
-    body('features')
-        .isArray({ min: 10, max: 10 })
-        .withMessage('Features must be an array of 10 numbers'),
+    body('image')
+        .notEmpty()
+        .withMessage('Image is required'),
     handleInputsErrors,
     FaceController.searchFacesByFeatures
 );
