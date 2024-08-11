@@ -6,7 +6,7 @@ import Lock from '../models/Lock';
 export class FaceController {
     static createFace = async (req: Request, res: Response) => {
         const { userId, lockId } = req.params;
-        const { image } = req.body;
+        const { image, name } = req.body;
 
         try {
             const user = await User.findById(userId);
@@ -19,7 +19,7 @@ export class FaceController {
                 return res.status(404).json({ message: 'Lock not found' });
             }
 
-            const face = new Face({ image, user: user._id, lock: lock._id });
+            const face = new Face({ image, name, user: user._id, lock: lock._id });
             await face.save();
 
             res.status(201).json({ message: 'Face created successfully', face });
@@ -56,10 +56,10 @@ export class FaceController {
 
     static updateFaceById = async (req: Request, res: Response) => {
         const { faceId } = req.params;
-        const { faceId: newFaceId, image } = req.body;
+        const { faceId: newFaceId, image, name } = req.body;
 
         try {
-            const face = await Face.findByIdAndUpdate(faceId, { faceId: newFaceId, image }, { new: true });
+            const face = await Face.findByIdAndUpdate(faceId, { faceId: newFaceId, image, name }, { new: true });
             if (!face) {
                 return res.status(404).json({ message: 'Face not found' });
             }

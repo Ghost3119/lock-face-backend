@@ -2,6 +2,7 @@ import { Schema, model, Document } from 'mongoose';
 
 interface IFace extends Document {
     image: string;
+    name: string;
     user: Schema.Types.ObjectId;
     lock: Schema.Types.ObjectId;
 }
@@ -10,6 +11,10 @@ const faceSchema = new Schema<IFace>({
     image: {
         type: String,
         required: true
+    },
+    name:{
+        type:String,
+        required:true
     },
     user: {
         type: Schema.Types.ObjectId,

@@ -16,6 +16,9 @@ router.post('/:userId/:lockId',
     body('image')
         .notEmpty()
         .withMessage('Image is required'),
+    body('name')
+        .notEmpty()
+        .withMessage('Name is required'),
     handleInputsErrors,
     FaceController.createFace
 );
@@ -43,6 +46,9 @@ router.put('/:faceId',
     body('image')
         .notEmpty()
         .withMessage('Image is required'),
+    body('name')
+        .notEmpty()
+        .withMessage('Name is required'),
     handleInputsErrors,
     FaceController.updateFaceById
 );
